@@ -44,6 +44,6 @@ ___
     
     |**输入**| 训练数据集$T={(x_1,y_1),(x_2,y_2),...,(x_N,y_N)}$ ,特征集A|
     |:----:|:-----|
-    |**输出**| 决策树T　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |  
-    |**过程**|　　函数 TreeGenerate(D, A)  <br>1　　生成结点node;  <br>2　　**if** D中样本全属于同一类别C **then**  <br>3　　　　将node标记为C类叶结点; **return**  <br>4 　　   **end if**  <br>5　　**if** A == ∅ **OR** D中样本在A上取值相同 **then**  <br>6　　　　        将node标记为叶结点，其类别标记为D中样本数最多的类; **return**  <br>7　　**end if**  <br>8　　从A中选择最优划分属性$a_\*$;  <br>9　　**for** $a_\*$ 的每一个值 $a_\*^v$ **do**  <br>10　　　　为node生成一个分支;令Dv表示D中在$a_\*$上取值为$a_\*^v$的样本子集;  <br>11　　　　**if** Dv 为空 **then**  <br>12　　　　　　将分支结点标记为叶结点，其类别标记为D中样本最多的类;**then**  <br>13　　　　**else**  <br>14　　　　　　以TreeGenerate($D_v$, $A \\ \{ a_{*} \}$)为分支结点  <br>15　　　　**end if**  <br>16 　  **end for**  <br>|
+    |**输出**| 决策树T　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |  
+    |**过程**|　　函数 TreeGenerate(D, A)  <br>1　　生成结点node;  <br>2　　**if** D中样本全属于同一类别C **then**  <br>3　　　　将node标记为C类叶结点; **return**  <br>4　　**end if**  <br>5　　**if** A == ∅ **OR** D中样本在A上取值相同 **then**  <br>6　　　　        将node标记为叶结点，其类别标记为D中样本数最多的类; **return**  <br>7　　**end if**  <br>8　　从A中选择最优划分属性$a_\*$;  <br>9　　**for** $a_\*$ 的每一个值 $a_\*^v$ **do**  <br>10　　　　为node生成一个分支;令$D_v$表示D中在$a_\*$上取值为$a_\*^v$的样本子集;  <br>11　　　　**if** $D_v$ 为空 **then**  <br>12　　　　　　将分支结点标记为叶结点，其类别标记为D(其父节点)中样本最多的类; **return**  <br>13　　　　**else**  <br>14　　　　　　以TreeGenerate($D_v$, A＼{$a_{*}$})为分支结点  <br>15　　　　**end if**  <br>16 　  **end for**  <br>|
 
