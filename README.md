@@ -36,7 +36,7 @@ ___
 
 
 * ### 朴素贝叶斯法
-![朴素贝叶斯法](https://github.com/Changzhisong/MachineLearning/blob/master/朴素贝叶斯.jpg) 
+![朴素贝叶斯法](https://github.com/Changzhisong/MachineLearning/blob/master/Bayes.pdf) 
  
 
-* ###决策树
+* ### 决策树
