@@ -83,7 +83,7 @@ ___
 |**输入**| 训练数据集$T={(x_1,y_1),(x_2,y_2),...,(x_N,y_N)}$ ,特征集A|  
 |:----:|:-----|  
 |**输出**| 决策树T 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |  
-|**过程**|　　函数 TreeGenerate(D, A) <br>1　　生成结点node; <br>2　　**if** D中样本全属于同一类别C **then** <br>3　　　　将node标记为C类叶结点; **return** <br>4　　**end if** <br>5　　**if** A == ∅ **OR** D中样本在A上取值相同 **then** <br>6　　　　 将node标记为叶结点，其类别标记为D中样本数最多的类; **return** <br>7　　**end if** <br>8　　从A中选择**最优划分属性**$a_\*$; <br>9　　**for** $a_\*$ 的每一个值 $a_\*^v$ **do** <br>10　　　　为node生成一个分支;令$D_v$表示D中在$a_\*$上取值为$a_\*^v$的样本子集; <br>11　　　　**if** $D_v$ 为空 **then** <br>12　　　　　　将分支结点标记为叶结点，其类别标记为D(其父节点)中样本最多的类; **return** <br>13　　　　**else** <br>14　　　　　　以TreeGenerate($D_v$, A＼{$a_{*}$})为分支结点 <br>15　　　　**end if** <br>16 　 **end for** <br>|  
+|**过程**|　　函数 TreeGenerate(D, A) <br>1　　生成结点node; <br>2　　**if** D中样本全属于同一类别C **then** <br>3　　　　将node标记为C类叶结点; **return** <br>4　　**end if** <br>5　　**if** A == ∅ **OR** D中样本在A上取值相同 **then** <br>6　　　　 将node标记为叶结点，其类别标记为D中样本数最多的类; **return** <br>7　　**end if** <br>8　　从A中选择**最优划分属性**$a_\*$; <br>9　　**for** $a_\*$ 的每一个值 $a_\*^v$ **do** <br>10　　　　为node生成一个分支;令$D_v$表示D中在$a_\*$上取值为$a_\*^v$的样本子集; <br>11　　　　**if** $D_v$ 为空 **then** <br>12　　　　　　将分支结点标记为叶结点，其类别标记为D(其父节点)中样本最多的类; **return** <br>13　　　　**else** <br>14　　　　　　以TreeGenerate($D_v$, A＼{$a_{\*}$})为分支结点 <br>15　　　　**end if** <br>16 　 **end for** <br>|  
   
 * **最优划分属性方法**  
 （1）信息增益（ID3算法）  
@@ -125,7 +125,7 @@ ___
 **输出：** 分离超平面的参数$w^{\*}$和$b^{\*}$和分类决策函数。  
 **步骤：** 
 （1）构造约束优化问题
-优化函数定义为：$$max \frac{1}{||w||_2} s.t   y_i(w^Tx_i + b) \geq 1 (i =1,2,...m)$$  
+优化函数定义为：$$max \frac{1}{||w||_2}$$s.t   y_i(w^Tx_i + b) \geq 1 (i =1,2,...m)$$  
 由于$\frac{1}{||w||_2}$的最大化等同于$\frac{1}{2}||w||_2^2$的最小化。这样SVM的优化函数（**原始问题**）等价于：
 $$min \;\; \frac{1}{2}||w||_2^2  \;\;   \;\;s.t \;\; y_i(w^Tx_i + b)  \geq 1 (i =1,2,...m)$$  
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1] \;\;\;\; s.t\;\;\alpha_i \geq 0$$
@@ -133,10 +133,10 @@ $$min \;\; \frac{1}{2}||w||_2^2  \;\;   \;\;s.t \;\; y_i(w^Tx_i + b)  \geq 1 (i 
 $$\underbrace{max}_{\alpha_i \geq 0} \;\underbrace{min}_{w,b}\;  L(w,b,\alpha)$$  
 求$\;\underbrace{min}_{w,b}\;  L(w,b,\alpha)$对$\alpha$的极大，即是**对偶问题**：
 $$\underbrace{min}_{\alpha} \frac{1}{2}\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}\alpha_i\alpha_jy_iy_j(x_i \bullet x_j) -  \sum\limits_{i=1}^{m} \alpha_i $$ $$s.t. \; \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$ $$ \alpha_i \geq 0  \; \;i=1,2,...m $$  
-（2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{*}$。
-（3）计算$w^{*} = \sum\limits_{i=1}^{m}\alpha_i^{*}y_ix_i$  
-（4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{*}$，计算出这些$b_s^{*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{*}$对应的平均值即为最终的$b^{*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{*}$  
-   （5）最终的分类超平面为：$w^{*} \bullet x + b^{*} = 0$，最终的分类决策函数为：$f(x) = sign(w^{*} \bullet x + b^{*})$    
+（2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。
+（3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$  
+（4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{\*}$，计算出这些$b_s^{\*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{\*}$对应的平均值即为最终的$b^{\*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{\*}$  
+   （5）最终的分类超平面为：$w^{\*} \bullet x + b^{\*} = 0$，最终的分类决策函数为：$f(x) = sign(w^{\*} \bullet x + b^{\*})$    
 **解释：**
 （1）数据集必须线性可分。  
 （2）采用拉格朗日对偶性求解对偶问题的优点:  
@@ -165,10 +165,10 @@ $$min\;\; \;\;\;\;\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i \;\;\;\;\;\;
 $$ \underbrace{ min }_{\alpha} \;\;\;\;\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum\limits_{i=1}^{m}\alpha_i $$ $$ s.t. \;\;\;\;\;\; \sum\limits_{i=1}^{m}\alpha_iy_i = 0\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ $$0 \leq \alpha_i \leq C\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ 
 和线性可分SVM相比，仅仅是多了一个约束条件$0 \leq \alpha_i \leq C$。
 
-（2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{*}$。  
-（3）计算$w^{*} = \sum\limits_{i=1}^{m}\alpha_i^{*}y_ix_i$
- （4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{*}$，计算出这些$b_s^{*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{*}$对应的平均值即为最终的$b^{*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{*}$  
-（5）最终的分类超平面为：$w^{*} \bullet x + b^{*} = 0$，最终的分类决策函数为：$f(x) = sign(w^{*} \bullet x + b^{*})$
+（2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。  
+（3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$
+ （4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{\*}$，计算出这些$b_s^{\*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{\*}$对应的平均值即为最终的$b^{\*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{\*}$  
+（5）最终的分类超平面为：$w^{\*} \bullet x + b^{\*} = 0$，最终的分类决策函数为：$f(x) = sign(w^{\*} \bullet x + b^{\*})$
 **解释：**
 （1）另一种解释如下：$$\underbrace{ min}_{w, b}\sum\limits_{i=1}^{m}[1-y_i(w \bullet x_i + b)]_{+} + \lambda ||w||_2^2$$　 
 其中$L(y(w \bullet x + b)) = [1-y_i(w \bullet x + b)]_{+}$称为合页损失函数(hinge loss function)，下标+表示为： 
