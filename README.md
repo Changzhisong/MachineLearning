@@ -135,19 +135,19 @@ $$min \quad \frac{1}{2}||w||_2^2  \qquad s.t \quad y_i(w^Tx_i + b)  \geq 1 (i =1
 
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：
 
-$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1] \qquad s.t \quad \alpha_i \geq 0$$
+$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum \limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1] \qquad s.t \quad \alpha_i \geq 0$$
 
 原始问题的对偶问题是极大极小问题：
 
-$$\underbrace{max}_{\alpha_i \geq 0} \;\underbrace{min}_{w,b}\;  L(w,b,\alpha)$$  
+$$\underbrace{max}_{\alpha_i \geq 0} \ \underbrace{min}_{w,b} \  L(w,b,\alpha)$$  
 
 求$\underbrace{min}_{w,b} \ L(w,b,\alpha)$对$\alpha$的极大，即是**对偶问题**：
 
-$$\underbrace{min}_{\alpha} \frac{1}{2}\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}\alpha_i\alpha_jy_iy_j(x_i \bullet x_j) -  \sum\limits_{i=1}^{m} \alpha_i $$ 
+$$\underbrace{min}_{\alpha} \frac{1}{2}\sum \limits_{i=1}^{m}\sum \limits_{j=1}^{m}\alpha_i\alpha_jy_iy_j(x_i \bullet x_j) -  \sum \limits_{i=1}^{m} \alpha_i $$ 
 
 $$s.t. \ \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$ 
 
-$$ \alpha_i \geq 0  \; \;i=1,2,...m $$  
+$$ \alpha_i \geq 0  \qquad i=1,2,...m $$  
 
 （2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。
 （3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$  
@@ -177,7 +177,7 @@ $$ \alpha_i \geq 0  \; \;i=1,2,...m $$
 
 同时对每一个松弛变量$\xi_i$, 支付一个代价$\xi_i$，得到**软间隔原始问题**：  
 
-  $$min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i$$  
+  $$min\frac{1}{2}||w||_2^2 +C\sum \limits_{i=1}^{m}\xi_i$$  
 
   $$ s.t \quad y_i(w^Tx_i + b)  \geq 1 - \xi_i (i =1,2,...m)$$  
 
@@ -186,26 +186,31 @@ $$ \alpha_i \geq 0  \; \;i=1,2,...m $$
 这里,$C>0$为惩罚参数，为协调两者关系的正则化惩罚系数。
 将软间隔最大化的约束问题用拉格朗日函数转化为无约束问题如下：
 
-  $$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum \limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1 + \xi_i] - \sum \limits_{i=1}^{m}\mu_i\xi_i$$ 
+  $$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum \limits_{i=1}^{m}\xi_i - \sum \limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1 + \xi_i] - \sum \limits_{i=1}^{m}\mu_i\xi_i$$ 
 
 其中 $\mu_i \geq 0, \alpha_i \geq 0$,均为拉格朗日系数。 对偶问题是拉格朗日函数的**极大极小问题**：
 
-$$\underbrace{ min }_{\alpha} \;\;\;\;\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum\limits_{i=1}^{m}\alpha_i $$ $$ s.t. \;\;\;\;\;\; \sum\limits_{i=1}^{m}\alpha_iy_i = 0\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ $$0 \leq \alpha_i \leq C\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ 
+  $$\underbrace{ min }_{\alpha} \quad \frac{1}{2}\sum \limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum \limits_{i=1}^{m}\alpha_i $$
+
+  $$s.t. \quad \sum \limits_{i=1}^{m}\alpha_iy_i = 0 \qquad$$
+
+
+  $$0 \leq \alpha_i \leq C \qquad$$ 
 
 和线性可分SVM相比，仅仅是多了一个约束条件$0 \leq \alpha_i \leq C$。
 
 （2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。  
-（3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$
- （4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{\*}$，计算出这些$b_s^{\*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{\*}$对应的平均值即为最终的$b^{\*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{\*}$  
+（3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$  
+（4）找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum \limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{\*}$，计算出这些$b_s^{\*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{\*}$对应的平均值即为最终的$b^{\*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{\*}$  
 （5）最终的分类超平面为：$w^{\*} \bullet x + b^{\*} = 0$，最终的分类决策函数为：$f(x) = sign(w^{\*} \bullet x + b^{\*})$  
 **解释：**
 （1）另一种解释如下：  
 
-$$\underbrace{ min}_{w, b}\sum\limits_{i=1}^{m}[1-y_i(w \bullet x_i + b)]_{+} + \lambda ||w||_2^2$$　  
+$$\underbrace{min}_{w,b}\sum \limits_{i=1}^{m}[1-y_i(w \bullet x_i + b)]_{+} + \lambda ||w||_2^2$$　  
  
 其中$L(y(w \bullet x + b)) = [1-y_i(w \bullet x + b)]_{+}$称为合页损失函数(hinge loss function)，下标+表示为： 
 
- $$ [z]_{+}=\begin{cases}z ; &{z >0}\\0;& {z\leq 0}\end{cases}$$  
+ $$ [z]_{+}=\begin{cases}z ; \quad {z >0}\\0;\quad {z\leq 0}\end{cases}$$  
 
 也就是说，如果样本点$(x_i,y_i)$被正确分类，且函数间隔$y(w \bullet x + b)$大于1时，损失是0，否则损失是$1-y(w \bullet x + b)$,如下图中的绿线。我们在下图还可以看出其他各种模型损失和函数间隔的关系：对于0-1损失函数，如果正确分类，损失是0，误分类损失1， 如下图黑线，可见0-1损失函数是不可导的。对于感知机模型，感知机的损失函数是$[-y_i(w \bullet x + b)]_{+}$，这样当样本被正确分类时，损失是0，误分类时，损失是$-y_i(w \bullet x + b)$，如下图紫线。对于逻辑回归之类和最大熵模型对应的对数损失，损失函数是$log[1+exp(-y(w \bullet x + b))]$, 如下图红线所示。 
 ![合页损失函数](https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161125140636518-992065349.png)
