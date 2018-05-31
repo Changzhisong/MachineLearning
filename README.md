@@ -131,19 +131,23 @@ $$max \frac{1}{||w||_2} s.t   y_i(w^Tx_i + b) \geq 1 (i =1,2,...m)$$
 
 由于$\frac{1}{||w||_2}$的最大化等同于$\frac{1}{2}||w||_2^2$的最小化。这样SVM的优化函数（**原始问题**）等价于：
 
-$$min \;\; \frac{1}{2}||w||_2^2  \;\;   \;\;s.t \;\; y_i(w^Tx_i + b)  \geq 1 (i =1,2,...m)$$  
+$$min \quad \frac{1}{2}||w||_2^2  \qquad s.t \quad y_i(w^Tx_i + b)  \geq 1 (i =1,2,...m)$$  
 
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：
 
-$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1] \;\;\;\; s.t\;\;\alpha_i \geq 0$$
+$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1] \qquad s.t \quad \alpha_i \geq 0$$
 
 原始问题的对偶问题是极大极小问题：
 
 $$\underbrace{max}_{\alpha_i \geq 0} \;\underbrace{min}_{w,b}\;  L(w,b,\alpha)$$  
 
-求$\;\underbrace{min}_{w,b}\;  L(w,b,\alpha)$对$\alpha$的极大，即是**对偶问题**：
+求$\underbrace{min}_{w,b} \ L(w,b,\alpha)$对$\alpha$的极大，即是**对偶问题**：
 
-$$\underbrace{min}_{\alpha} \frac{1}{2}\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}\alpha_i\alpha_jy_iy_j(x_i \bullet x_j) -  \sum\limits_{i=1}^{m} \alpha_i $$ $$s.t. \; \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$ $$ \alpha_i \geq 0  \; \;i=1,2,...m $$  
+$$\underbrace{min}_{\alpha} \frac{1}{2}\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}\alpha_i\alpha_jy_iy_j(x_i \bullet x_j) -  \sum\limits_{i=1}^{m} \alpha_i $$ 
+
+$$s.t. \ \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$ 
+
+$$ \alpha_i \geq 0  \; \;i=1,2,...m $$  
 
 （2）通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。
 （3）计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$  
@@ -173,18 +177,20 @@ $$\underbrace{min}_{\alpha} \frac{1}{2}\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m
 
 同时对每一个松弛变量$\xi_i$, 支付一个代价$\xi_i$，得到**软间隔原始问题**：  
 
-$$min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i$$  
-$$ s.t&y_i(w^Tx_i + b)  \geq 1 - \xi_i (i =1,2,...m)$$  
-$$\xi_i \geq 0 \;\;(i =1,2,...m)\;\;\;\;\;\;\;\;\;\;\;\;$$  
+  $$min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i$$  
+
+  $$ s.t \quad y_i(w^Tx_i + b)  \geq 1 - \xi_i (i =1,2,...m)$$  
+
+  $$\xi_i \geq 0 \quad (i =1,2,...m)$$  
 
 这里,$C>0$为惩罚参数，为协调两者关系的正则化惩罚系数。
 将软间隔最大化的约束问题用拉格朗日函数转化为无约束问题如下：
 
-$$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1 + \xi_i] - \sum\limits_{i=1}^{m}\mu_i\xi_i $$ 
+  $$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum \limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1 + \xi_i] - \sum \limits_{i=1}^{m}\mu_i\xi_i$$ 
 
 其中 $\mu_i \geq 0, \alpha_i \geq 0$,均为拉格朗日系数。 对偶问题是拉格朗日函数的**极大极小问题**：
 
-$$ \underbrace{ min }_{\alpha} \;\;\;\;\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum\limits_{i=1}^{m}\alpha_i $$ $$ s.t. \;\;\;\;\;\; \sum\limits_{i=1}^{m}\alpha_iy_i = 0\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ $$0 \leq \alpha_i \leq C\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ 
+$$\underbrace{ min }_{\alpha} \;\;\;\;\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum\limits_{i=1}^{m}\alpha_i $$ $$ s.t. \;\;\;\;\;\; \sum\limits_{i=1}^{m}\alpha_iy_i = 0\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ $$0 \leq \alpha_i \leq C\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;$$ 
 
 和线性可分SVM相比，仅仅是多了一个约束条件$0 \leq \alpha_i \leq C$。
 
