@@ -267,8 +267,8 @@ ___
   
 * **最优划分属性方法**  
 （1）信息增益（ID3算法）  
-	* **熵：**表示的随机变量的不确定性，
-	* **信息增益：**则是已知该特征的信息而使得数据的不确定性减少的程度。  
+	* **熵：** 表示的随机变量的不确定性，
+	* **信息增益：** 则是已知该特征的信息而使得数据的不确定性减少的程度。  
 	* **缺点**： 采用信息增益准则会对可取值数目较多的特征有所偏好。因为对于取值数目较多的特征，更容易使得数据更“纯”，即各个分支节点中所包含的样本会更多的属于同一个类，也就是说，该特征会使不确定性（样本熵、信息熵、经验熵）减少的更多，比如极端情况：当对于某个特征，其对每个样本都有一个不同的取值，那么该特征是最大信息增益特征，因为若采用这个特征，其每个分支节点的纯度已达最大，然而，这样的决策树显然不具有泛化能力，无法对新样本进行有效预测。  
 	
 	（2）信息增益比（C4.5）  
@@ -347,19 +347,14 @@ $$min \ \frac{1}{2}||w||_2^2  \qquad s.t \quad y_i(w^Tx_i + b)  \geq 1 \ (i =1,2
 
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：
 
-$$L(w,b,\alpha) = \frac{1}{2} ||w||_2^2 \sum\limits_{i=1}^{m} {\alpha_i {[y_i (w^Tx_i + b) - 1]}} \qquad s.t. \quad \alpha_i \geq 0$$  
-
-$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m} \alpha_i [y_i (w^Tx_i + b) - 1] \qquad s.t. \quad \alpha_i \geq 0$$  
-
-$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m} \alpha_i \[y_i (w^Tx_i + b) - 1\] \qquad s.t. \quad \alpha_i \geq 0$$  
-  
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$L(w,b,\alpha)&space;=&space;\frac{1}{2}||w||_2^2&space;\sum\limits_{i=1}^{m}&space;{\alpha_i&space;{[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1]}}&space;\qquad&space;s.t.&space;\quad&space;\alpha_i&space;\geq&space;0$$" title="$$L(w,b,\alpha) = \frac{1}{2}||w||_2^2 \sum\limits_{i=1}^{m} {\alpha_i {[y_i (w^Tx_i + b) - 1]}} \qquad s.t \quad \alpha_i \geq 0$$" />
 原始问题的对偶问题是极大极小问题：
 
-$$\underbrace{max}_{\alpha_i \geq 0} \ \underbrace{min}_{w,b} \  L(w,b,\alpha)$$  
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$\underbrace{max}_{\alpha_i&space;\geq&space;0}&space;\underbrace{min}_{w,b}&space;\&space;L(w,b,\alpha)$$" title="$$\underbrace{max}_{\alpha_i \geq 0} \underbrace{min}_{w,b} \ L(w,b,\alpha)$$" />
 
 求$\underbrace{min}_{w,b} \ L(w,b,\alpha)$对$\alpha$的极大，即是**对偶问题**：
 
-$\underbrace{min}_{\alpha} \frac{1}{2} \sum\limits_{i=1}^{m} \sum\limits_{j=1}^{m} \alpha_i \alpha_j y_i y_j (x_i \bullet x_j) -  \sum\limits_{i=1}^{m} \alpha_i$   
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$\underbrace{min}_{\alpha}&space;\frac{1}{2}&space;\sum\limits_{i=1}^{m}&space;\sum\limits_{j=1}^{m}&space;\alpha_i&space;\alpha_j&space;y_i&space;y_j&space;(x_i&space;\bullet&space;x_j)&space;-&space;\sum\limits_{i=1}^{m}&space;\alpha_i$$" title="$$\underbrace{min}_{\alpha} \frac{1}{2} \sum\limits_{i=1}^{m} \sum\limits_{j=1}^{m} \alpha_i \alpha_j y_i y_j (x_i \bullet x_j) - \sum\limits_{i=1}^{m} \alpha_i$$" /> 
 
 $$ s.t. \ \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$   
 
@@ -389,11 +384,40 @@ $$ \alpha_i \geq 0  \qquad i=1,2,...m $$
 **输出：** 分离超平面的参数$w^{\*}$和$b^{\*}$和分类决策函数。  
 **（1）** 选择一个惩罚系数$C>0$, 构造约束优化问题  
 对训练集里面的每个样本$(x_i,y_i)$引入了一个松弛变量$\xi_i \geq 0$,使得：  
-$$ y_i(w\bullet x_i +b) \geq 1- \xi_i $$  同时对每一个松弛变量$\xi_i$, 支付一个代价$\xi_i$，得到**软间隔原始问题**：  
- $$ min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i $$$$ s.t \quad y_i (w^Tx_i + b) \geq 1 - \xi_i (i =1,2,...m) $$$$ \xi_i \geq 0 \quad (i =1,2,...m) $$这里,$C>0$为惩罚参数，为协调两者关系的正则化惩罚系数。  
+$$ y_i(w\bullet x_i +b) \geq 1- \xi_i $$  同时对每一个松弛变量$\xi_i$, 支付一个代价$\xi_i$，得到**软间隔原始问题**：  <img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;min\frac{1}{2}||w||_2^2&space;&plus;C\sum\limits_{i=1}^{m}\xi_i&space;$$" title="$$ min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i $$" />
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;s.t&space;\quad&space;y_i&space;(w^Tx_i&space;&plus;&space;b)&space;\geq&space;1&space;-&space;\xi_i&space;(i&space;=1,2,...m)&space;$$" title="$$ s.t \quad y_i (w^Tx_i + b) \geq 1 - \xi_i (i =1,2,...m) $$" />
+
+$$ \xi_i \geq 0 \quad (i =1,2,...m)$$<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;\xi_i&space;\geq&space;0&space;\quad&space;(i&space;=1,2,...m)&space;$$" title="$$ \xi_i \geq 0 \quad (i =1,2,...m) $$" />
+
+$$min\frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i$$   
+
+$$s.t \quad y_i (w^Tx_i + b) \geq 1 - \xi_i (i =1,2,...m)$$   
+
+$$\xi_i \geq 0 \quad (i =1,2,...m)$$   
+
+
+这里,$C>0$为惩罚参数，为协调两者关系的正则化惩罚系数。  
 将软间隔最大化的约束问题用拉格朗日函数转化为无约束问题如下：    
-$$ L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum\limits_{i=1}^{m}\alpha_i [y_i (w^Tx_i + b) - 1 + \xi_i] - \sum\limits_{i=1}^{m}\mu_i\xi_i $$   其中 $\mu_i \geq 0, \alpha_i \geq 0$,均为拉格朗日系数。 对偶问题是拉格朗日函数的**极大极小问题**：  
-$$ \underbrace{ min }_{\alpha} \quad \frac{1}{2} \sum\limits_{i=1,j=1}^{m} \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum\limits_{i=1}^{m} \alpha_i $$  $$ s.t. \quad \sum\limits_{i=1}^{m}\alpha_iy_i = 0 \qquad $$  $$ 0 \leq \alpha_i \leq C \qquad $$    和线性可分SVM相比，仅仅是多了一个约束条件$0 \leq \alpha_i \leq C$。  
+$$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum\limits_{i=1}^{m}\alpha_i [y_i (w^Tx_i + b) - 1 + \xi_i] - \sum\limits_{i=1}^{m}\mu_i\xi_i$$   
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$L(w,b,\xi,\alpha,\mu)&space;=&space;\frac{1}{2}||w||_2^2&space;&plus;C\sum\limits_{i=1}^{m}\xi_i&space;-&space;\sum\limits_{i=1}^{m}\alpha_i&space;[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1&space;&plus;&space;\xi_i]&space;-&space;\sum\limits_{i=1}^{m}\mu_i\xi_i$$" title="$$L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum\limits_{i=1}^{m}\alpha_i [y_i (w^Tx_i + b) - 1 + \xi_i] - \sum\limits_{i=1}^{m}\mu_i\xi_i$$" />
+
+其中 $\mu_i \geq 0, \alpha_i \geq 0$,均为拉格朗日系数。 对偶问题是拉格朗日函数的**极大极小问题**：  
+
+$$\underbrace{ min }_{\alpha} \quad \frac{1}{2} \sum\limits_{i=1,j=1}^{m} \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum\limits_{i=1}^{m} \alpha_i$$    
+
+$$s.t \quad \sum\limits_{i=1}^{m}\alpha_iy_i = 0 \qquad $$   
+
+$$0 \leq \alpha_i \leq C$$    
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$\underbrace{&space;min&space;}_{\alpha}&space;\quad&space;\frac{1}{2}&space;\sum\limits_{i=1,j=1}^{m}&space;\alpha_i&space;\alpha_j&space;y_i&space;y_j&space;x_i^T&space;x_j&space;-&space;\sum\limits_{i=1}^{m}&space;\alpha_i$$" title="$$\underbrace{ min }_{\alpha} \quad \frac{1}{2} \sum\limits_{i=1,j=1}^{m} \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum\limits_{i=1}^{m} \alpha_i$$" />
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$s.t&space;\quad&space;\sum\limits_{i=1}^{m}\alpha_iy_i&space;=&space;0&space;\qquad&space;$$" title="$$s.t \quad \sum\limits_{i=1}^{m}\alpha_iy_i = 0 \qquad $$" />
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$0&space;\leq&space;\alpha_i&space;\leq&space;C$$" title="$$0 \leq \alpha_i \leq C$$" />
+
+和线性可分SVM相比，仅仅是多了一个约束条件$0 \leq \alpha_i \leq C$。  
 **（2）** 通过序列最小最优化算法（**SMO算法**）求对偶优化问题的$\alpha$向量的解$\alpha^{\*}$。  
 **（3）** 计算$w^{\*} = \sum\limits_{i=1}^{m}\alpha_i^{\*}y_ix_i$  
 **（4）** 找出所有的支持向量，假设有S个，即满足$\alpha_s > 0$对应的样本$(x_s,y_s)$，通过 $y_s(\sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s+b) = 1$，同时根据$y^2_s=1$，计算出每个支持向量$(x_x, y_s)$对应的$b_s^{\*}$，计算出这些$b_s^{\*} = y_s - \sum\limits_{i=1}^{m}\alpha_iy_ix_i^Tx_s$。所有的$b_s^{\*}$对应的平均值即为最终的$b^{\*} = \frac{1}{S}\sum\limits_{i=1}^{S}b_s^{\*}$  
@@ -401,7 +425,14 @@ $$ \underbrace{ min }_{\alpha} \quad \frac{1}{2} \sum\limits_{i=1,j=1}^{m} \alph
 **解释：**  
 **（1）** 另一种解释如下：  
 $$ \underbrace{min}_{w,b}\sum\limits_{i=1}^{m} [1-y_i (w \bullet x_i + b)]_{+} + \lambda ||w||_2^2 $$  
-其中$L(y(w \bullet x + b)) = [1- y_i (w \bullet x + b) ]_{+}$称为合页损失函数(hinge loss function)，下标+表示为： $[z]_{+} = z, \quad {z>0} ; \ 0, \quad {z\leq 0} $也就是说，如果样本点$(x_i,y_i)$被正确分类，且函数间隔$y(w \bullet x + b)$大于1时，损失是0，否则损失是$1-y(w \bullet x + b)$,如下图中的绿线。我们在下图还可以看出其他各种模型损失和函数间隔的关系：对于0-1损失函数，如果正确分类，损失是0，误分类损失1， 如下图黑线，可见0-1损失函数是不可导的。对于感知机模型，感知机的损失函数是$[-y_i(w \bullet x + b)]_{+}$，这样当样本被正确分类时，损失是0，误分类时，损失是$-y_i(w \bullet x + b)$，如下图紫线。对于逻辑回归之类和最大熵模型对应的对数损失，损失函数是$log[1+exp(-y (w \bullet x + b))]$, 如下图红线所示。  
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;\underbrace{min}_{w,b}\sum\limits_{i=1}^{m}&space;[1-y_i&space;(w&space;\bullet&space;x_i&space;&plus;&space;b)]_{&plus;}&space;&plus;&space;\lambda&space;||w||_2^2&space;$$" title="$$ \underbrace{min}_{w,b}\sum\limits_{i=1}^{m} [1-y_i (w \bullet x_i + b)]_{+} + \lambda ||w||_2^2 $$" />
+
+其中$L(y(w \bullet x + b)) = [1- y_i (w \bullet x + b) ]_{+}$称为合页损失函数(hinge loss function)，下标+表示为： $$$$[z]_{+} = z, \quad {z>0} ; \ 0, \quad {z\leq 0}$$ 
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$[z]_{&plus;}&space;=\left\{\begin{matrix}&space;z&space;\quad{z>0}\\&space;0\quad&space;{z\leq&space;0}\&space;\end{matrix}$$" title="$$[z]_{+} =\left\{\begin{matrix} z \quad{z>0}\\ 0\quad {z\leq 0}\ \end{matrix}$$" />  
+
+也就是说，如果样本点$(x_i,y_i)$被正确分类，且函数间隔$y(w \bullet x + b)$大于1时，损失是0，否则损失是$1-y(w \bullet x + b)$,如下图中的绿线。我们在下图还可以看出其他各种模型损失和函数间隔的关系：对于0-1损失函数，如果正确分类，损失是0，误分类损失1， 如下图黑线，可见0-1损失函数是不可导的。对于感知机模型，感知机的损失函数是$[-y_i(w \bullet x + b)]_{+}$，这样当样本被正确分类时，损失是0，误分类时，损失是$-y_i(w \bullet x + b)$，如下图紫线。对于逻辑回归之类和最大熵模型对应的对数损失，损失函数是$log[1+exp(-y (w \bullet x + b))]$, 如下图红线所示。  
 ![合页损失函数](https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161125140636518-992065349.png)
 
 * **4. 非线性SVM**  
@@ -435,15 +466,50 @@ $$K(x, z) = tanh ( \gamma x \bullet z + r)$$
 **$\epsilon$-不敏感损失函数**  
 对于回归模型，目标是让训练集中的每个点$(x_i,y_i)$,尽量拟合到一个线性模型$y_i = w \bullet \phi(x_i ) +b$。对于一般的回归模型，通常采用均方差作为损失函数,但是SVM采用的是$\epsilon$-不敏感损失函数。  
 
-对于常量$\epsilon > 0$，对于某一个点$(x_i,y_i)$，如果$|y_i - w \bullet \phi(x_i ) -b| \leq \epsilon$，则损失为0，如果$|y_i - w \bullet \phi(x_i ) -b| > \epsilon$,则对应的损失为$|y_i - w \bullet \phi(x_i ) -b| - \epsilon$，这个均方差损失函数不同，如果是均方差，那么只要$y_i - w \bullet \phi(x_i ) -b \neq 0$，就会有损失。$$ err(x_i,y_i) =\begin{cases}0 & {|y_i - w \bullet \phi(x_i ) -b| \leq\epsilon}\\|y_i - w \bullet \phi(x_i ) +b| - \epsilon & {|y_i - w \bullet \phi(x_i ) -b| > \epsilon}\end{cases}$$  
+对于常量$\epsilon > 0$，对于某一个点$(x_i,y_i)$，如果$|y_i - w \bullet \phi(x_i ) -b| \leq \epsilon$，则损失为0，如果$|y_i - w \bullet \phi(x_i ) -b| > \epsilon$,则对应的损失为$|y_i - w \bullet \phi(x_i ) -b| - \epsilon$，这个均方差损失函数不同，如果是均方差，那么只要$y_i - w \bullet \phi(x_i ) -b \neq 0$，就会有损失。
+
 ![sur](https://github.com/Changzhisong/MachineLearning/blob/master/image/svm-support-vector-regression-tube-vs-square-error.png)
 
 **SVR原始问题**  
-$$min\;\; \frac{1}{2}||w||_2^2 \;\; s.t \;\; |y_i - w \bullet \phi(x_i ) -b| \leq \epsilon(i =1,2,...m)$$
-对每个样本$(x_i,y_i)$加入两个松弛变量 $\xi_i^{\lor} \geq 0 , \xi_i^{\land} \geq 0$, 则SVR问题为：$$min\;\; \frac{1}{2}||w||_2^2 + C\sum\limits_{i=1}^{m}(\xi_i^{\lor}+ \xi_i^{\land}) $$ $$s.t. \;\;\; -\epsilon - \xi_i^{\lor} \leq y_i - w \bullet \phi(x_i ) -b \leq\epsilon +\xi_i^{\land}$$ $$\xi_i^{\lor} \geq 0, \;\; \xi_i^{\land} \geq 0 \;(i = 1,2,..., m)$$
 
-**SVR对偶问题**  
-拉格朗日函数对偶性得对偶问题：$$ \underbrace{ min}_{\alpha^{\lor}, \alpha^{\land}}\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor})(\alpha_j^{\land} -\alpha_j^{\lor})K_{ij} + \sum\limits_{i=1}^{m}(\epsilon-y_i)\alpha_i^{\land}+ (\epsilon+y_i)\alpha_i^{\lor} $$ $$ s.t. \; \sum\limits_{i=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor}) = 0$$ $$ 0 < \alpha_i^{\lor} < C \; (i =1,2,...m)$$ $$ 0 <\alpha_i^{\land} <C \; (i =1,2,...m)$$
+$$min \frac{1}{2}||w||_2^2 \qquad s.t \quad |y_i - w \bullet \phi(x_i ) -b| \leq \epsilon \quad (i =1,2,...m)$$
+对每个样本$(x_i,y_i)$加入两个松弛变量 $\xi_i^{\lor} \geq 0 , \xi_i^{\land} \geq 0$, 则SVR问题为：  
+
+$$min \frac{1}{2}||w||_2^2 + C\sum\limits_{i=1}^{m}(\xi_i^{\lor}+ \xi_i^{\land})$$   
+
+$$s.t \quad  -\epsilon - \xi_i^{\lor} \leq y_i - w \bullet \phi(x_i ) -b \leq\epsilon +\xi_i^{\land}$$   
+
+$$\xi_i^{\lor} \geq 0, \quad \xi_i^{\land} \geq 0 \quad (i = 1,2,..., m)$$  
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$min&space;\frac{1}{2}||w||_2^2&space;&plus;&space;C\sum\limits_{i=1}^{m}(\xi_i^{\lor}&plus;&space;\xi_i^{\land})$$" title="$$min \frac{1}{2}||w||_2^2 + C\sum\limits_{i=1}^{m}(\xi_i^{\lor}+ \xi_i^{\land})$$" />  
+
+
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$s.t&space;-\epsilon&space;-&space;\xi_i^{\lor}&space;\leq&space;y_i&space;-&space;w&space;\bullet&space;\phi(x_i&space;)&space;-b&space;\leq\epsilon&space;&plus;\xi_i^{\land}$$" title="$$s.t -\epsilon - \xi_i^{\lor} \leq y_i - w \bullet \phi(x_i ) -b \leq\epsilon +\xi_i^{\land}$$" />  
+
+
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$\xi_i^{\lor}&space;\geq&space;0,&space;\quad&space;\xi_i^{\land}&space;\geq&space;0&space;\quad&space;(i&space;=&space;1,2,...,&space;m)$$" title="$$\xi_i^{\lor} \geq 0, \quad \xi_i^{\land} \geq 0 \quad (i = 1,2,..., m)$$" />  
+
+**SVR对偶问题**   
+拉格朗日函数对偶性得对偶问题：   
+
+$$ \underbrace{ min}_{\alpha^{\lor}, \alpha^{\land}}\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor})(\alpha_j^{\land} -\alpha_j^{\lor})K_{ij} + \sum\limits_{i=1}^{m}(\epsilon-y_i)\alpha_i^{\land}+ (\epsilon+y_i)\alpha_i^{\lor} $$   
+
+$$ s.t \quad \sum\limits_{i=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor}) = 0$$   
+
+$$ 0 < \alpha_i^{\lor} < C \; (i =1,2,...m)$$   
+
+$$ 0 <\alpha_i^{\land} <C \; (i =1,2,...m)$$  
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;\underbrace{&space;min}_{\alpha^{\lor},&space;\alpha^{\land}}\;&space;\frac{1}{2}\sum\limits_{i=1,j=1}^{m}(\alpha_i^{\land}&space;-&space;\alpha_i^{\lor})(\alpha_j^{\land}&space;-\alpha_j^{\lor})K_{ij}&space;&plus;&space;\sum\limits_{i=1}^{m}(\epsilon-y_i)\alpha_i^{\land}&plus;&space;(\epsilon&plus;y_i)\alpha_i^{\lor}&space;$$" title="$$ \underbrace{ min}_{\alpha^{\lor}, \alpha^{\land}}\; \frac{1}{2}\sum\limits_{i=1,j=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor})(\alpha_j^{\land} -\alpha_j^{\lor})K_{ij} + \sum\limits_{i=1}^{m}(\epsilon-y_i)\alpha_i^{\land}+ (\epsilon+y_i)\alpha_i^{\lor} $$" />
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;s.t&space;\quad&space;\sum\limits_{i=1}^{m}(\alpha_i^{\land}&space;-&space;\alpha_i^{\lor})&space;=&space;0$$" title="$$ s.t \quad \sum\limits_{i=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor}) = 0$$" />  
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;0&space;<&space;\alpha_i^{\lor}&space;<&space;C&space;\;&space;(i&space;=1,2,...m)$$" title="$$ 0 < \alpha_i^{\lor} < C \; (i =1,2,...m)$$" />  
+
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$&space;0&space;<\alpha_i^{\land}&space;<C&space;\;&space;(i&space;=1,2,...m)$$" title="$$ 0 <\alpha_i^{\land} <C \; (i =1,2,...m)$$" />
 
 对于这个目标函数，利用SMO算法来求出对应的$\alpha^{\lor}, \alpha^{\land}$，进而求出回归模型系数$w, b$。$w = \sum\limits_{i=1}^{m}(\alpha_i^{\land} - \alpha_i^{\lor})\phi(x_i)$，当$\beta_i =\alpha_i^{\land}-\alpha_i^{\lor} = 0$时，$w$不受这些在误差范围内的点的影响。对于在边界上或者在边界外的点，$\alpha_i^{\lor} \neq 0, \alpha_i^{\land} \neq 0$，此时$\beta_i \neq 0$。
 
@@ -451,14 +517,30 @@ $$min\;\; \frac{1}{2}||w||_2^2 \;\; s.t \;\; |y_i - w \bullet \phi(x_i ) -b| \le
 * **6. SMO（序列最小最优化）算法**  
 
 **原始问题**  
-$$ \underbrace{ min }_{\alpha}  \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jK(x_i,x_j) - \sum\limits_{i=1}^{m}\alpha_i $$ $$ s.t. \; \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$ $$0 \leq \alpha_i \leq C$$每个变量 $\alpha_i$对应于一个样本点$(x_i,y_i)$，有m个变量组成的向量$\alpha$需要在目标函数极小化的时候求出。  
+$$ \underbrace{ min }_{\alpha}  \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jK(x_i,x_j) - \sum\limits_{i=1}^{m}\alpha_i $$ 
+
+$$ s.t \quad  \sum\limits_{i=1}^{m}\alpha_iy_i = 0 $$
+
+$$0 \leq \alpha_i \leq C$$
+
+ <img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;\underbrace{&space;min&space;}_{\alpha}&space;\frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jK(x_i,x_j)&space;-&space;\sum\limits_{i=1}^{m}\alpha_i&space;$$&space;\\&space;.\quad&space;\quad&space;s.t&space;\quad&space;\sum\limits_{i=1}^{m}\alpha_iy_i&space;=&space;0&space;\\&space;.&space;\&space;\qquad&space;\qquad0&space;\leq&space;\alpha_i&space;\leq&space;C">
+
+每个变量 $\alpha_i$对应于一个样本点$(x_i,y_i)$，有m个变量组成的向量$\alpha$需要在目标函数极小化的时候求出。  
 如果所有变量$\alpha_i$的解都满足最优化问题的KKT条件，那么这个最优化问题的解就得到了，因为KKT条件是该最优化问题的充分必要条件。  
 
 **SMO基本思路：**   
  采用一种启发式的方法。每次只优化两个变量，将其他的变量都视为常数。由于$\sum\limits_{i=1}^{m}\alpha_iy_i = 0$.假如将$\alpha_3, \alpha_4, ..., \alpha_m$　固定，那么$\alpha_1, \alpha_2$之间的关系也确定了。这样SMO算法将一个复杂的优化算法转化为一个比较简单的两变量优化问题（该问题有闭式解，不用调用数值优化算法计算，快）。这个简单的两变量优化问题的解应该更接近原始问题的解，因为这会使得原始问题的目标函数值变小。利用这种方法可以使得整个算法的速度大大提高。子问题的两个变量，一个是选择违反KKT条件最严重的那一个，另一个由约束条件自动确定。重复不断的分解为子问题并求解，直到所有变量$\alpha_i$的解满足KKT条件，进而达到求解原始问的的目的。  
 
 **子问题**   
-定义$K_{ij} = \phi(x_i) \bullet \phi(x_j)$由于$\alpha_3, \alpha_4, ..., \alpha_m$都成了常量，所有的常量从目标函数去除，这样得到子优化问题：$$\;\underbrace{ min }_{\alpha_1, \alpha_1} \frac{1}{2}K_{11}\alpha_1^2 + \frac{1}{2}K_{22}\alpha_2^2 +y_1y_2K_{12}\alpha_1 \alpha_2 -(\alpha_1 + \alpha_2)+y_1\alpha_1\sum\limits_{i=3}^{m}y_i\alpha_iK_{i1} + y_2\alpha_2\sum\limits_{i=3}^{m}y_i\alpha_iK_{i2}$$ $$s.t. \;\;\alpha_1y_1 + \alpha_2y_2 = -\sum\limits_{i=3}^{m}y_i\alpha_i = \varsigma$$ $$0 \leq \alpha_i \leq C \;\; i =1,2$$
+定义$K_{ij} = \phi(x_i) \bullet \phi(x_j)$由于$\alpha_3, \alpha_4, ..., \alpha_m$都成了常量，所有的常量从目标函数去除，这样得到子优化问题：
+$$\underbrace{ min }_{\alpha_1, \alpha_1} \frac{1}{2}K_{11}\alpha_1^2 + \frac{1}{2}K_{22}\alpha_2^2 +y_1y_2K_{12}\alpha_1 \alpha_2 -(\alpha_1 + \alpha_2)+y_1\alpha_1\sum\limits_{i=3}^{m}y_i\alpha_iK_{i1} + y_2\alpha_2\sum\limits_{i=3}^{m}y_i\alpha_iK_{i2}$$  
+
+$$s.t \quad  \alpha_1y_1 + \alpha_2y_2 = -\sum\limits_{i=3}^{m}y_i\alpha_i = \varsigma$$   
+
+$$0 \leq \alpha_i \leq C  i =1,2$$  
+
+
+<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;\small&space;\underbrace{&space;min&space;}_{\alpha_1,&space;\alpha_1}&space;\frac{1}{2}K_{11}\alpha_1^2&space;&plus;&space;\frac{1}{2}K_{22}\alpha_2^2&space;&plus;y_1y_2K_{12}\alpha_1&space;\alpha_2&space;-(\alpha_1&space;&plus;&space;\alpha_2)&plus;y_1\alpha_1\sum\limits_{i=3}^{m}y_i\alpha_iK_{i1}&space;&plus;&space;y_2\alpha_2\sum\limits_{i=3}^{m}y_i\alpha_iK_{i2}&space;\\&space;.\quad&space;\&space;s.t&space;\quad&space;\alpha_1y_1&space;&plus;&space;\alpha_2y_2&space;=&space;-\sum\limits_{i=3}^{m}y_i\alpha_i&space;=&space;\varsigma&space;\\&space;.\quad&space;\&space;\qquad&space;\&space;0&space;\leq&space;\alpha_i&space;\leq&space;C&space;\quad&space;i&space;=1,2">
 
 **两个变量的选择**  
 
@@ -470,11 +552,12 @@ SMO算法称选择第一个变量为外层循环，这个变量需要选择在�
 如果内存循环找到的点不能让目标函数有足够的下降， 可以采用遍历支持向量点来做$\alpha_2$,直到目标函数有足够的下降， 如果所有的支持向量做$\alpha_2$都不能让目标函数有足够的下降，可以跳出循环，重新选择$\alpha_1$　  
 
 
-* **7. sklearn中SVM参数**  
-	* sklearn.svm模块中  
-	* 分类：SVC， NuSVC，和LinearSVC  
-	* 回归:SVR， NuSVR，和LinearSVR  
-	 具体详情参见[这里](http://www.cnblogs.com/pinard/p/6117515.html "SVM调参")
+**7. sklearn中SVM参数**  
+
+* sklearn.svm模块中  
+* 分类：SVC， NuSVC，和LinearSVC  
+* 回归:SVR， NuSVR，和LinearSVR  
+ 具体详情参见[这里](http://www.cnblogs.com/pinard/p/6117515.html "SVM调参")
 
 
 ----  
