@@ -6,7 +6,8 @@
 ### Author:Song  
 ### E-mail:Z.S.Chang@qq.com  
 ****  
-本系列是我学习机器学习过程中的一些总结。主要参考了李航《统计学习方法》、周志华的《机器学习》及一些技术博客。时的一些总结。如果有数学公式无法显示，推荐使用Google Chrome与GitHub with MathJax插件组合浏览！！！  
+本系列是我学习机器学习过程中的一些总结。主要参考了李航《统计学习方法》、周志华《机器学习》及一些技术博客。  
+**如果有数学公式无法显示，推荐使用Google Chrome与GitHub with MathJax插件组合浏览！！！**  
 ## 目录  
 * [机器学习的基本术语](#机器学习的基本术语 )
 * [没有免费午餐定理(NFL)](#没有免费午餐定理（nfl）)
@@ -37,10 +38,18 @@
 	* [SMO（序列最小最优化）算法](#6.smo（序列最小最优化）算法)
 	* [sklearn中SVM参数](#7.sklearn中svm参数)
 * [朴素贝叶斯](#朴素贝叶斯)  
-	* 最大似然估计
-	* 贝叶斯估计 
-	 
-* 
+	* [最大似然估计]()
+	* [贝叶斯估计]()  
+* [Adaboost](#adaboost)
+ 	* [Boosting](#boosting)  
+	* [Adboost]()
+* [GBDT](#gbdt)
+* [RandomForest](#随机森林)
+	* [Bagging](#bagging)
+* [XGBoost](#xgboost)
+* [聚类]()
+* [降维]()
+* [特征选择]()
 ***  
 ---
 --- 
@@ -348,7 +357,7 @@ $$min \ \frac{1}{2}||w||_2^2  \qquad s.t \quad y_i(w^Tx_i + b)  \geq 1 \ (i =1,2
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：
 
 <div align=center>
-<img src="https://latex.codecogs.com/gif.latex?\dpi{150}&space;$$L(w,b,\alpha)&space;=&space;\frac{1}{2}||w||_2^2&space;\sum\limits_{i=1}^{m}&space;{\alpha_i&space;{[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1]}}&space;\qquad&space;s.t.&space;\quad&space;\alpha_i&space;\geq&space;0$$">
+<img src="https://latex.codecogs.com/gif.latex?\dpi{130}&space;$$L(w,b,\alpha)&space;=&space;\frac{1}{2}||w||_2^2&space;\sum\limits_{i=1}^{m}&space;{\alpha_i&space;{[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1]}}&space;\qquad&space;s.t.&space;\quad&space;\alpha_i&space;\geq&space;0$$">
 </div>
 
 原始问题的对偶问题是极大极小问题：
