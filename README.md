@@ -327,18 +327,20 @@ ___
 ---  
 
 ### SVM  
+* **基本想法：** 求解能够正确划分训练数据集并且几个间隔最大化的分离超平面。
 * **1.几个概念**    
 	* **函数间隔$\gamma^{'}$：**
 						$$\gamma^{'} = y(w^Tx + b)$$  
 		* $|w^Tx + b|$表示点x到超平面的距离。通过观察$w^Tx + b$和y是否同号，判断分类是否正确。  
-		* 对于训练集中m个样本点对应的m个函数间隔的最小值，就是整个训练集的函数间隔。函数间隔并不能正常反映点到超平面的距离，当分子成比例的增长时，分母也是成倍增长。
+		* 对于训练集中m个样本点对应的m个函数间隔的最小值，就是整个训练集的函数间隔。
 	* **几何间隔$\gamma$：**
 				$$\gamma = \frac{y(w^Tx + b)}{||w||_2} =\frac{\gamma^{'}}{||w||_2}$$
+		* 函数间隔并不能正常反映点到超平面的距离，当w和b成比例的增长时，超平面并没有变，但函数间隔却变为原来的两倍。
 		* 几何间隔才是点到超平面的真正距离。
 	* **支持向量：**
 		* 距离超平面最近的几个样本，满足$y_i(w^Tx_i + b)= 1$，则它们被称为支持向量。
 		* 支持向量到超平面的距离为$1/||w||_2$,两个异类支持向量之间的距离为$2/||w||_2$。  
-	![svm](https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161124144326487-1331861308.jpg)　  
+	<img src="https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161124144326487-1331861308.jpg"width=556 height=376 >
 
 * **2. 线性可分SVM（硬间隔）**  
 
@@ -357,7 +359,7 @@ $$min \ \frac{1}{2}||w||_2^2  \qquad s.t \quad y_i(w^Tx_i + b)  \geq 1 \ (i =1,2
 通过**拉格朗日对偶性**将优化目标转化为无约束的优化函数：
 
 <div align=center>
-<img src="https://latex.codecogs.com/gif.latex?\dpi{130}&space;$$L(w,b,\alpha)&space;=&space;\frac{1}{2}||w||_2^2&space;\sum\limits_{i=1}^{m}&space;{\alpha_i&space;{[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1]}}&space;\qquad&space;s.t.&space;\quad&space;\alpha_i&space;\geq&space;0$$">
+<img src="https://latex.codecogs.com/gif.latex?\dpi{130}&space;$$L(w,b,\alpha)&space;=&space;\frac{1}{2}||w||_2^2&space;-\sum\limits_{i=1}^{m}&space;{\alpha_i&space;{[y_i&space;(w^Tx_i&space;&plus;&space;b)&space;-&space;1]}}&space;\qquad&space;s.t.&space;\quad&space;\alpha_i&space;\geq&space;0$$">
 </div>
 
 原始问题的对偶问题是极大极小问题：
@@ -450,7 +452,9 @@ $$0 \leq \alpha_i \leq C$$
 </div>
 
 也就是说，如果样本点$(x_i,y_i)$被正确分类，且函数间隔$y(w \bullet x + b)$大于1时，损失是0，否则损失是$1-y(w \bullet x + b)$,如下图中的绿线。我们在下图还可以看出其他各种模型损失和函数间隔的关系：对于0-1损失函数，如果正确分类，损失是0，误分类损失1， 如下图黑线，可见0-1损失函数是不可导的。对于感知机模型，感知机的损失函数是$[-y_i(w \bullet x + b)]_{+}$，这样当样本被正确分类时，损失是0，误分类时，损失是$-y_i(w \bullet x + b)$，如下图紫线。对于逻辑回归之类和最大熵模型对应的对数损失，损失函数是$log[1+exp(-y (w \bullet x + b))]$, 如下图红线所示。  
-![合页损失函数](https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161125140636518-992065349.png)
+<div align=center>
+<img src="https://images2015.cnblogs.com/blog/1042406/201611/1042406-20161125140636518-992065349.png"width=556 height=456 >
+</div>
 
 * **4. 非线性SVM**  
 
